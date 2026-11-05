@@ -101,16 +101,9 @@ $$w[n] = 0.5 \left(1 - \cos\left(\frac{2\pi n}{N-1}\right)\right), \quad 0 \le n
 
 Hàm Hanning đưa biên độ ở hai mép khung về tiệm cận 0, giúp búp sóng phụ (sidelobes) của phổ giảm nhanh xuống dưới $-31 \text{ dB}$, triệt tiêu phần lớn năng lượng rò rỉ và làm cho các đỉnh tần số nốt nhạc trở nên sắc nét.
 
-```
-       Biên độ
-        1.0 |              .---.
-            |            /       \
-            |          /           \
-            |        /               \
-        0.0 |_______/_________________\_______
-            0                               N-1 (Mẫu n)
-                     Cửa sổ Hanning w[n]
-```
+![Đồ thị hàm Cửa sổ Hanning](output/plot_hanning_window.png)
+
+*Hình 2.2: Dạng hàm Cửa sổ Hanning w[n] trong miền thời gian (N = 1024 mẫu).*
 
 ### 2.4. Biến đổi Fourier thời gian ngắn (STFT) và Bản đồ phổ (Spectrogram)
 Tín hiệu âm nhạc là tín hiệu **không dừng (Non-stationary signal)**, nghĩa là nội dung tần số thay đổi liên tục theo thời gian. Phép biến đổi FFT toàn cục trên cả bài hát sẽ làm mất hoàn toàn thông tin về thời điểm xuất hiện của các nốt nhạc.
@@ -151,29 +144,9 @@ $$\mathcal{P} = \{ (t_i, f_i) \}_{i=1}^P$$
 
 ### 3.1. Sơ đồ khối tổng thể của hệ thống
 
-```mermaid
-flowchart TD
-    subgraph INGESTION["GIAI ĐOẠN 1: NẠP VÀ LẬP CHỈ MỤC (INDEXING)"]
-        A1["File âm thanh gốc (.wav)"] --> B1["Chuẩn hóa & Downsampling (fs = 22050 Hz)"]
-        B1 --> C1["Chia khung & Cửa sổ Hanning (N=1024, Overlap=50%)"]
-        C1 --> D1["Biến đổi FFT -> Spectrogram 2D"]
-        D1 --> E1["Lọc cực đại cục bộ 2D -> Constellation Map"]
-        E1 --> F1["Ghép cặp Landmark Hashing (f1, f2, Δt)"]
-        F1 --> G1[("Bảng băm Chỉ mục đảo (Inverted Index DB)")]
-    end
+![Sơ đồ khối tổng thể hệ thống Mini-Shazam](output/plot_0_system_architecture.png)
 
-    subgraph QUERY["GIAI ĐOẠN 2: TRUY VẤN VÀ NHẬN DIỆN (QUERY)"]
-        A2["Đoạn trích thu âm ngắn (3s + Tạp âm)"] --> B2["STFT & Spectrogram 2D"]
-        B2 --> C2["Trích xuất Peaks & Hashes đoạn trích"]
-        C2 --> D2["Tra cứu Khóa băm trong CSDL"]
-        G1 -. Tra cứu .-> D2
-        D2 --> E2["Tính độ lệch thời gian: Δt = t_song - t_query"]
-        E2 --> F2["Xây dựng Histogram phân bố Δt cho từng bài"]
-        F2 --> G2{"Điểm đỉnh >= Ngưỡng & Độ tin cậy >= 20%?"}
-        G2 -- Đúng --> H2["Xác nhận bài hát & Vị trí thời gian chính xác"]
-        G2 -- Sai --> I2["Báo: Bài hát chưa đăng ký (Unknown Song)"]
-    end
-```
+*Hình 3.1: Sơ đồ khối kiến trúc tổng thể hai giai đoạn (Lập chỉ mục CSDL & Truy vấn nhận diện thời gian thực) của hệ thống Mini-Shazam.*
 
 ### 3.2. Thuật toán trích xuất dấu vân tay âm thanh (Audio Fingerprinting)
 Dấu vân tay âm thanh không thể chỉ dựa vào tần số đơn lẻ của từng đỉnh vì một nốt nhạc có thể xuất hiện hàng nghìn lần trong các bài hát khác nhau. Thay vào đó, thuật toán Shazam sử dụng **cấu trúc liên kết cặp điểm (Combinatorial Landmark Hashing)**.
@@ -188,16 +161,9 @@ Với mỗi điểm neo (Anchor Peak) tại tọa độ thời gian $t_1$ và bi
 3. Gói dữ liệu lưu trữ gồm:
    $$(\text{Hash Key}, t_1, \text{Song ID})$$
 
-```
-Tần số (Hz) ^
-            |          . (Đỉnh f2, t2)
-            |         /
-            |        /  Vector ghép cặp: [f1 | f2 | Δt]
-            |       /
-            |    . (Điểm neo f1, t1)
-            |    |<- Δt ->|
-            +----------------------------------> Thời gian (t)
-```
+![Nguyên lý ghép cặp Landmark Hashing](output/plot_landmark_pairing_concept.png)
+
+*Hình 3.2: Minh họa nguyên lý ghép cặp Landmark Hashing giữa điểm neo (Anchor Peak) và các đỉnh trong vùng mục tiêu (Target Zone).*
 
 **Ưu điểm vượt trội của Landmark Hashing:**
 * **Bất biến với độ to:** Nếu âm thanh bị vặn to hoặc nhỏ, giá trị tương đối giữa các đỉnh cực đại cục bộ không đổi.
