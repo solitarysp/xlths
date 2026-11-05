@@ -10,3 +10,4 @@
 /dataSources.local.xml
 .idea
 venv
+output/last_live_recording.wav
