@@ -8,7 +8,6 @@
 * **Môn học:** Xử lý Tín hiệu Số (Digital Signal Processing - DSP)
 * **Sinh viên thực hiện:** Lê Văn Thành
 * **Mã sinh viên (MSV):** K25DTCN402
-* **Ngành:** Kỹ thuật Điện tử - Viễn thông / Công nghệ Thông tin / Kỹ thuật Máy tính
 * **Ngôn ngữ thực hiện:** Python 3 (NumPy, SciPy, Matplotlib)
 * **Sản phẩm bàn giao:** Bộ mã nguồn Python hoàn chỉnh (`main_demo.py`, `fingerprint.py`, `recognizer.py`, `audio_generator.py`, `generate_plots.py`, `live_mic_recognizer.py`) và Báo cáo khoa học.
 
