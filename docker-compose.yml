@@ -1,0 +1,10 @@
+services:
+  mini-shazam:
+    build: .
+    container_name: mini_shazam_demo
+    volumes:
+      - ./data:/app/data
+      - ./output:/app/output
+    stdin_open: true
+    tty: true
+    command: python main_demo.py

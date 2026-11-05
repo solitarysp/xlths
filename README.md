@@ -35,16 +35,63 @@ xlths/
 
 ---
 
-## 🚀 Hướng dẫn cài đặt & Chạy chương trình
+## 🚀 Hướng dẫn Cài đặt & Chạy chương trình
 
-### 1. Cài đặt thư viện phụ thuộc
-Hệ thống sử dụng các thư viện chuẩn trong Python cho DSP và `ffmpeg` (đã có sẵn trên máy) để đọc mọi định dạng âm thanh (.mp3, .wav, .m4a, .flac):
+### Cách 1: Chạy trực tiếp trên máy cục bộ (Local Python)
+
+> **Lưu ý:** macOS/Homebrew Python hiện tại áp dụng chính sách *externally-managed-environment*, vì vậy bạn nên dùng môi trường ảo `venv` (virtual environment):
+
+#### 1. Tạo môi trường ảo và kích hoạt:
+```bash
+# Tạo virtual environment
+python3 -m venv venv
+
+# Kích hoạt trên macOS / Linux:
+source venv/bin/activate
+
+# (Nếu trên Windows):
+# venv\Scripts\activate
+```
+
+#### 2. Cài đặt các thư viện phụ thuộc:
 ```bash
 pip install -r requirements.txt
 ```
+*(Yêu cầu máy đã có sẵn `ffmpeg` để đọc file MP3/M4A/FLAC. Trên macOS cài bằng `brew install ffmpeg`).*
 
-### 2. Thêm file nhạc MP3 của bạn vào hệ thống
-Bạn có thể thêm bao nhiêu bài hát MP3 tùy thích theo 2 cách cực kỳ đơn giản:
+#### 3. Chạy Demo:
+```bash
+python3 main_demo.py
+```
+
+---
+
+### Cách 2: Chạy bằng Docker (Khuyên dùng nếu không muốn cài môi trường)
+
+Dự án đã tích hợp sẵn `Dockerfile` và `docker-compose.yml` (đã bao gồm Python, FFmpeg và đầy đủ các thư viện DSP cần thiết):
+
+#### Sử dụng Docker Compose (Đơn giản nhất):
+```bash
+# Build và chạy 4 kịch bản demo:
+docker compose up --build
+```
+
+#### Hoặc sử dụng Docker CLI truyền thống:
+```bash
+# 1. Build Docker image:
+docker build -t mini-shazam .
+
+# 2. Chạy Demo:
+docker run --rm -v "$(pwd)/data:/app/data" -v "$(pwd)/output:/app/output" mini-shazam
+
+# 3. Test nhận diện file MP3 bất kỳ bằng Docker:
+docker run --rm -v "$(pwd)/data:/app/data" mini-shazam python main_demo.py --query data/Happy_Birthday_Melody.wav
+```
+
+---
+
+### 📂 Thêm file nhạc của bạn vào hệ thống
+Bạn có thể thêm bao nhiêu bài hát MP3/WAV/M4A tùy thích theo 2 cách:
 
 * **Cách 1: Thả trực tiếp file vào thư mục `data/`**
   Chỉ cần copy các file `.mp3` (hoặc `.wav`, `.m4a`, `.flac`) vào thư mục `data/`. Khi chạy, chương trình sẽ tự động quét và nạp toàn bộ vào cơ sở dữ liệu.
@@ -55,7 +102,9 @@ Bạn có thể thêm bao nhiêu bài hát MP3 tùy thích theo 2 cách cực k�
   python3 main_demo.py --scan /path/to/thu_muc_mp3/
   ```
 
-### 3. Các kịch bản chạy Demo và Nhận diện
+---
+
+### 🎯 Các kịch bản chạy Demo và Nhận diện
 
 #### A. 🎤 THU ÂM TRỰC TIẾP TỪ MICROPHONE (LIVE SHAZAM DEMO):
 Bật bài hát trên điện thoại hoặc máy tính, sau đó chạy lệnh:
