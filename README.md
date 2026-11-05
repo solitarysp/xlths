@@ -1,6 +1,7 @@
 # Mini-Shazam: Hệ thống Nhận diện Bài hát Số (DSP Audio Fingerprinting)
 > **Đồ án / Bài tập lớn môn Xử lý Tín hiệu Số (XLTHS)**  
 > **Sinh viên thực hiện:** Lê Văn Thành — **MSV:** K25DTCN402  
+> **GitHub Repository:** [https://github.com/solitarysp/xlths](https://github.com/solitarysp/xlths)  
 > **Nền tảng phát triển:** Python 3 (NumPy, SciPy, Matplotlib)
 
 ---

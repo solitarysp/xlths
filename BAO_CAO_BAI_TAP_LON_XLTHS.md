@@ -8,6 +8,7 @@
 * **Môn học:** Xử lý Tín hiệu Số (Digital Signal Processing - DSP)
 * **Sinh viên thực hiện:** Lê Văn Thành
 * **Mã sinh viên (MSV):** K25DTCN402
+* **Kho mã nguồn (GitHub Repository):** [https://github.com/solitarysp/xlths](https://github.com/solitarysp/xlths)
 * **Ngôn ngữ thực hiện:** Python 3 (NumPy, SciPy, Matplotlib)
 * **Sản phẩm bàn giao:** Bộ mã nguồn Python hoàn chỉnh (`main_demo.py`, `fingerprint.py`, `recognizer.py`, `audio_generator.py`, `generate_plots.py`, `live_mic_recognizer.py`) và Báo cáo khoa học.
 
@@ -318,3 +319,4 @@ Bảng số liệu ghi nhận trực tiếp từ kịch bản chạy thử nghi�
 3. **John G. Proakis, Dimitris G. Manolakis (2006)**, *"Digital Signal Processing: Principles, Algorithms, and Applications"*, 4th Edition, Pearson.
 4. **Julius O. Smith III (2011)**, *"Spectral Audio Signal Processing"*, W3K Publishing, Stanford University.
 5. **SciPy & NumPy Documentation**, *"Signal processing (scipy.signal) & Discrete Fourier Transform (scipy.fft)"*, https://docs.scipy.org.
+6. **Mã nguồn dự án Mini-Shazam XLTHS (GitHub)**: [https://github.com/solitarysp/xlths](https://github.com/solitarysp/xlths).
